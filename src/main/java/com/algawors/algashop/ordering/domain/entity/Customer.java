@@ -76,6 +76,50 @@ public class Customer {
         setPhone(phone);
     }
 
+    public UUID id() {
+        return id;
+    }
+
+    public String fullName() {
+        return fullName;
+    }
+
+    public LocalDate birthDate() {
+        return birthDate;
+    }
+
+    public String email() {
+        return email;
+    }
+
+    public String document() {
+        return document;
+    }
+
+    public String phone() {
+        return phone;
+    }
+
+    public Boolean isPromotionNotificationsAllowed() {
+        return promotionNotificationsAllowed;
+    }
+
+    public Boolean isArchived() {
+        return archived;
+    }
+
+    public OffsetDateTime registeredAt() {
+        return registeredAt;
+    }
+
+    public OffsetDateTime archivedAt() {
+        return archivedAt;
+    }
+
+    public Integer loyaltPoints() {
+        return loyaltPoints;
+    }
+
     private void setId(UUID id) {
         this.id = id;
     }
