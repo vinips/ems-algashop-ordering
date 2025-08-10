@@ -1,6 +1,7 @@
 package com.algawors.algashop.ordering.domain.entity;
 
-import org.apache.commons.validator.routines.EmailValidator;
+import com.algawors.algashop.ordering.domain.exception.ErrorMessages;
+import com.algawors.algashop.ordering.domain.utility.FieldValidations;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -59,7 +60,13 @@ public class Customer {
 
 
     public void archive() {
-        //
+        this.setArchived(true);
+        this.setArchivedAt(OffsetDateTime.now());
+        this.setFullName("Anonymous");
+        this.setEmail(UUID.randomUUID() + "@anonymous.com");
+        this.setPhone("000-000-0000");
+        this.setDocument("000-00-0000");
+        this.setBirthDate(null);
     }
 
     public void enablePromotionNotifications() {
@@ -132,9 +139,9 @@ public class Customer {
     }
 
     private void setFullName(String fullName) {
-        Objects.requireNonNull(fullName);
+        Objects.requireNonNull(fullName, ErrorMessages.VALIDATION_ERROR_FULLNAME_IS_NULL);
         if (fullName.isBlank()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessages.VALIDATION_ERROR_FULLNAME_IS_BLANK);
         }
         this.fullName = fullName;
     }
@@ -145,20 +152,14 @@ public class Customer {
             return;
         }
         if (birthDate.isAfter(LocalDate.now())) {
-           throw new IllegalArgumentException();
+           throw new IllegalArgumentException(ErrorMessages.VALIDATION_ERROR_BIRTHDATE_MUST_IN_PAST);
         }
 
         this.birthDate = birthDate;
     }
 
     private void setEmail(String email) {
-        Objects.requireNonNull(fullName);
-        if (fullName.isBlank()) {
-            throw new IllegalArgumentException();
-        }
-        if (!EmailValidator.getInstance().isValid(email)) {
-            throw new IllegalArgumentException();
-        }
+        FieldValidations.requiresValidEmail(email, ErrorMessages.VALIDATION_ERROR_EMAIL_IS_INVALID);
         this.email = email;
     }
 
