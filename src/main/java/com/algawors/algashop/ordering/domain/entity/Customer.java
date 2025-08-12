@@ -24,6 +24,7 @@ public class Customer {
     private OffsetDateTime archivedAt;
     private Integer loyaltyPoints;
 
+    @SuppressWarnings("squid:S107")
     public Customer(UUID id, String fullName, LocalDate birthDate, String email, String document,
                     String phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
         this.setId(id);
@@ -35,9 +36,10 @@ public class Customer {
         this.setPromotionNotificationsAllowed(promotionNotificationsAllowed);
         this.setRegisteredAt(registeredAt);
         this.setArchived(false);
-        this.setloyaltyPoints(0);
+        this.setLoyaltyPoints(0);
     }
 
+    @SuppressWarnings("squid:S107")
     public Customer(UUID id, String fullName, LocalDate birthDate, String email, String document,
                     String phone, Boolean promotionNotificationsAllowed, Boolean archived,
                     OffsetDateTime registeredAt, OffsetDateTime archivedAt, Integer loyaltyPoints) {
@@ -52,10 +54,12 @@ public class Customer {
         this.setRegisteredAt(registeredAt);
         this.setArchived(archived);
         this.setArchivedAt(archivedAt);
-        this.setloyaltyPoints(loyaltyPoints);
+        this.setLoyaltyPoints(loyaltyPoints);
     }
 
     public void addLoyaltyPoints(Integer points) {
+        verifyIfChangeable();
+        this.setLoyaltyPoints(this.loyaltyPoints + points);
         //
     }
 
@@ -200,8 +204,11 @@ public class Customer {
         this.archivedAt = archivedAt;
     }
 
-    private void setloyaltyPoints(Integer loyaltyPoints) {
+    private void setLoyaltyPoints(Integer loyaltyPoints) {
         Objects.requireNonNull(loyaltyPoints);
+        if (loyaltyPoints < 0) {
+           throw new IllegalArgumentException(ErrorMessages.VALIDATION_ERROR_POINTS_NEGATIVE);
+        }
         this.loyaltyPoints = loyaltyPoints;
     }
 
