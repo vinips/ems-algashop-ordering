@@ -2,7 +2,9 @@ package com.algawors.algashop.ordering.domain.entity;
 
 
 import com.algawors.algashop.ordering.domain.exception.CustomerArchivedException;
-import com.algawors.algashop.ordering.domain.utility.IdGenerator;
+import com.algawors.algashop.ordering.domain.valueobject.CustomerId;
+import com.algawors.algashop.ordering.domain.valueobject.FullName;
+import com.algawors.algashop.ordering.domain.valueobject.LoyaltyPoints;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,8 +35,8 @@ class CustomerTest {
 
         private Customer createNewCustomerInvalidEmail() {
             return new Customer(
-                    IdGenerator.generateTimeBasedUUID(),
-                    "Jhon Doe",
+                    new CustomerId(),
+                    new FullName("Jhon", "Doe"),
                     LocalDate.of(1992, 12, 24),
                     "invalid",
                     "255-08-0758",
@@ -54,7 +56,7 @@ class CustomerTest {
             customer.archive();
 
             Assertions.assertWith(customer,
-                    c -> Assertions.assertThat(c.fullName()).isEqualTo("Anonymous"),
+                    c -> Assertions.assertThat(c.fullName()).hasToString("Anonymous Anonymous"),
                     c -> Assertions.assertThat(c.email()).isNotEqualTo("jhon.doe@gmail.com"),
                     c -> Assertions.assertThat(c.phone()).isEqualTo("000-000-0000"),
                     c -> Assertions.assertThat(c.document()).isEqualTo("000-00-0000"),
@@ -66,6 +68,7 @@ class CustomerTest {
         @Test
         void given_archivedCustomer_whenTryToUpdate_shouldGenerateException() {
             Customer customer = createNewCustomerPartial();
+            FullName originalFullName = new FullName("Doe", "Jhon");
 
             customer.archive();
 
@@ -73,7 +76,7 @@ class CustomerTest {
                     .isThrownBy(customer::archive);
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
-                    .isThrownBy(() -> customer.changeName("Doe Jhon"));
+                    .isThrownBy(() -> customer.changeName(originalFullName));
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                     .isThrownBy(() -> customer.changeEmail("doe.jhon@gmail.com"));
@@ -97,29 +100,21 @@ class CustomerTest {
         @Test
         void given_newCustomer_whenAddValidLoyaltyPoints_shouldSumPoints() {
             Customer customer = createNewCustomerPartial();
-            customer.addLoyaltyPoints(15);
-            customer.addLoyaltyPoints(30);
+            customer.addLoyaltyPoints(new LoyaltyPoints(15));
+            customer.addLoyaltyPoints(new LoyaltyPoints(30));
 
-            Assertions.assertThat(customer.loyaltyPoints()).isEqualTo(45);
+            LoyaltyPoints totalLoyaltyPoints = new LoyaltyPoints(45);
+
+            Assertions.assertThat(customer.loyaltyPoints()).isEqualTo(totalLoyaltyPoints);
         }
-
-        @Test
-        void given_newCustomer_whenAddInvalidLoyaltyPoints_shouldGenerateException() {
-            Customer customer = createNewCustomerPartial();
-
-            Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                    .isThrownBy(() ->
-                            customer.addLoyaltyPoints(-15));
-        }
-
     }
 
 
 
     private Customer createNewCustomerPartial() {
         return new Customer(
-                IdGenerator.generateTimeBasedUUID(),
-                "Jhon Doe",
+                new CustomerId(),
+                new FullName("Jhon", "Doe"),
                 LocalDate.of(1992, 12, 24),
                 "jhon.doe@gmail.com",
                 "255-08-0758",
