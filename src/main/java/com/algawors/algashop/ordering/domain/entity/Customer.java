@@ -3,11 +3,11 @@ package com.algawors.algashop.ordering.domain.entity;
 import com.algawors.algashop.ordering.domain.exception.CustomerArchivedException;
 import com.algawors.algashop.ordering.domain.exception.ErrorMessages;
 import com.algawors.algashop.ordering.domain.utility.FieldValidations;
+import com.algawors.algashop.ordering.domain.valueobject.BirthDate;
 import com.algawors.algashop.ordering.domain.valueobject.CustomerId;
 import com.algawors.algashop.ordering.domain.valueobject.FullName;
 import com.algawors.algashop.ordering.domain.valueobject.LoyaltyPoints;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,7 +17,7 @@ public class Customer {
 
     private CustomerId id;
     private FullName fullName;
-    private LocalDate birthDate;
+    private BirthDate birthDate;
     private String email;
     private String document;
     private String phone;
@@ -28,7 +28,7 @@ public class Customer {
     private LoyaltyPoints loyaltyPoints;
 
     @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, LocalDate birthDate, String email, String document,
+    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, String document,
                     String phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
         this.setId(id);
         this.setFullName(fullName);
@@ -43,7 +43,7 @@ public class Customer {
     }
 
     @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, LocalDate birthDate, String email, String document,
+    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, String document,
                     String phone, Boolean promotionNotificationsAllowed, Boolean archived,
                     OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints) {
 
@@ -111,7 +111,7 @@ public class Customer {
         return fullName;
     }
 
-    public LocalDate birthDate() {
+    public BirthDate birthDate() {
         return birthDate;
     }
 
@@ -153,19 +153,10 @@ public class Customer {
     }
 
     private void setFullName(FullName fullName) {
-        Objects.requireNonNull(fullName, ErrorMessages.VALIDATION_ERROR_FULLNAME_IS_NULL);
         this.fullName = fullName;
     }
 
-    private void setBirthDate(LocalDate birthDate) {
-        if (birthDate == null ) {
-            this.birthDate = null;
-            return;
-        }
-        if (birthDate.isAfter(LocalDate.now())) {
-           throw new IllegalArgumentException(ErrorMessages.VALIDATION_ERROR_BIRTHDATE_MUST_IN_PAST);
-        }
-
+    private void setBirthDate(BirthDate birthDate) {
         this.birthDate = birthDate;
     }
 

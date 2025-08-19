@@ -2,6 +2,7 @@ package com.algawors.algashop.ordering.domain.entity;
 
 
 import com.algawors.algashop.ordering.domain.exception.CustomerArchivedException;
+import com.algawors.algashop.ordering.domain.valueobject.BirthDate;
 import com.algawors.algashop.ordering.domain.valueobject.CustomerId;
 import com.algawors.algashop.ordering.domain.valueobject.FullName;
 import com.algawors.algashop.ordering.domain.valueobject.LoyaltyPoints;
@@ -37,7 +38,7 @@ class CustomerTest {
             return new Customer(
                     new CustomerId(),
                     new FullName("Jhon", "Doe"),
-                    LocalDate.of(1992, 12, 24),
+                    new BirthDate(LocalDate.of(1992, 12, 24)),
                     "invalid",
                     "255-08-0758",
                     "478-585-2504",
@@ -115,7 +116,7 @@ class CustomerTest {
         return new Customer(
                 new CustomerId(),
                 new FullName("Jhon", "Doe"),
-                LocalDate.of(1992, 12, 24),
+                new BirthDate(LocalDate.of(1992, 12, 24)),
                 "jhon.doe@gmail.com",
                 "255-08-0758",
                 "478-585-2504",
