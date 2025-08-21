@@ -13,6 +13,8 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_LASTNAME_IS_BLANK = "Last Name cannot be blank";
     public static final String VALIDATION_ERROR_EMAIL_IS_INVALID = "Email is invalid";
     public static final String VALIDATION_ERROR_POINTS_NEGATIVE = "Loyalty Points must be higher than 0";
+    public static final String VALIDATION_ERROR_DOCUMENT_IS_BLANK_OR_NULL = "Document cannot be blank or null";
+
 
 
     public static final String ERROR_CUSTOMER_ARCHIVED = "Customer is archived, it cannot be changed";

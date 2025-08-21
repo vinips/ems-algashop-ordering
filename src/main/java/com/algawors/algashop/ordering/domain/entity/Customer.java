@@ -3,10 +3,7 @@ package com.algawors.algashop.ordering.domain.entity;
 import com.algawors.algashop.ordering.domain.exception.CustomerArchivedException;
 import com.algawors.algashop.ordering.domain.exception.ErrorMessages;
 import com.algawors.algashop.ordering.domain.utility.FieldValidations;
-import com.algawors.algashop.ordering.domain.valueobject.BirthDate;
-import com.algawors.algashop.ordering.domain.valueobject.CustomerId;
-import com.algawors.algashop.ordering.domain.valueobject.FullName;
-import com.algawors.algashop.ordering.domain.valueobject.LoyaltyPoints;
+import com.algawors.algashop.ordering.domain.valueobject.*;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -19,7 +16,7 @@ public class Customer {
     private FullName fullName;
     private BirthDate birthDate;
     private String email;
-    private String document;
+    private Document document;
     private String phone;
     private Boolean promotionNotificationsAllowed;
     private Boolean archived;
@@ -28,7 +25,7 @@ public class Customer {
     private LoyaltyPoints loyaltyPoints;
 
     @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, String document,
+    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, Document document,
                     String phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
         this.setId(id);
         this.setFullName(fullName);
@@ -43,7 +40,7 @@ public class Customer {
     }
 
     @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, String document,
+    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, Document document,
                     String phone, Boolean promotionNotificationsAllowed, Boolean archived,
                     OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints) {
 
@@ -73,7 +70,7 @@ public class Customer {
         this.setFullName(new FullName("Anonymous", "Anonymous"));
         this.setEmail(UUID.randomUUID() + "@anonymous.com");
         this.setPhone("000-000-0000");
-        this.setDocument("000-00-0000");
+        this.setDocument(new Document("000-00-0000"));
         this.setBirthDate(null);
         this.setPromotionNotificationsAllowed(false);
     }
@@ -119,7 +116,7 @@ public class Customer {
         return email;
     }
 
-    public String document() {
+    public Document document() {
         return document;
     }
 
@@ -165,8 +162,7 @@ public class Customer {
         this.email = email;
     }
 
-    private void setDocument(String document) {
-        Objects.requireNonNull(document);
+    private void setDocument(Document document) {
         this.document = document;
     }
 
