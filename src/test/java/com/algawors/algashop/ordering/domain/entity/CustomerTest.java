@@ -27,7 +27,7 @@ class CustomerTest {
                     new BirthDate(LocalDate.of(1992, 12, 24)),
                     new Email("invalid"),
                     new Document("255-08-0758"),
-                    "478-585-2504",
+                    new Phone("478-585-2504"),
                     false,
                     OffsetDateTime.now()
             );
@@ -45,7 +45,7 @@ class CustomerTest {
             Assertions.assertWith(customer,
                     c -> Assertions.assertThat(c.fullName()).hasToString("Anonymous Anonymous"),
                     c -> Assertions.assertThat(c.email().value()).isNotEqualTo("jhon.doe@gmail.com"),
-                    c -> Assertions.assertThat(c.phone()).isEqualTo("000-000-0000"),
+                    c -> Assertions.assertThat(c.phone().value()).hasToString("000-000-0000"),
                     c -> Assertions.assertThat(c.document().value()).hasToString("000-00-0000"),
                     c -> Assertions.assertThat(c.birthDate()).isNull(),
                     c -> Assertions.assertThat(c.isPromotionNotificationsAllowed()).isFalse()
@@ -57,6 +57,7 @@ class CustomerTest {
             Customer customer = createNewCustomerPartial();
             FullName originalFullName = new FullName("Doe", "Jhon");
             Email email = new Email("doe.jhon@gmail.com");
+            Phone phone = new Phone("111-111-1111");
 
             customer.archive();
 
@@ -70,15 +71,13 @@ class CustomerTest {
                     .isThrownBy(() -> customer.changeEmail(email));
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
-                    .isThrownBy(() -> customer.changePhone("111-111-1111"));
+                    .isThrownBy(() -> customer.changePhone(phone));
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                     .isThrownBy(customer::enablePromotionNotifications);
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                     .isThrownBy(customer::disablePromotionNotifications);
-
-
         }
     }
 
@@ -106,7 +105,7 @@ class CustomerTest {
                 new BirthDate(LocalDate.of(1992, 12, 24)),
                 new Email("jhon.doe@gmail.com"),
                 new Document("255-08-0758"),
-                "478-585-2504",
+                new Phone("478-585-2504"),
                 true,
                 OffsetDateTime.now()
         );

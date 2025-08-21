@@ -15,7 +15,7 @@ public class Customer {
     private BirthDate birthDate;
     private Email email;
     private Document document;
-    private String phone;
+    private Phone phone;
     private Boolean promotionNotificationsAllowed;
     private Boolean archived;
     private OffsetDateTime registeredAt;
@@ -24,7 +24,7 @@ public class Customer {
 
     @SuppressWarnings("squid:S107")
     public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
-                    String phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
+                    Phone phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
         this.setId(id);
         this.setFullName(fullName);
         this.setBirthDate(birthDate);
@@ -39,7 +39,7 @@ public class Customer {
 
     @SuppressWarnings("squid:S107")
     public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
-                    String phone, Boolean promotionNotificationsAllowed, Boolean archived,
+                    Phone phone, Boolean promotionNotificationsAllowed, Boolean archived,
                     OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints) {
 
         this.setId(id);
@@ -67,7 +67,7 @@ public class Customer {
         this.setArchivedAt(OffsetDateTime.now());
         this.setFullName(new FullName("Anonymous", "Anonymous"));
         this.setEmail(new Email(UUID.randomUUID() + "@anonymous.com"));
-        this.setPhone("000-000-0000");
+        this.setPhone(new Phone("000-000-0000"));
         this.setDocument(new Document("000-00-0000"));
         this.setBirthDate(null);
         this.setPromotionNotificationsAllowed(false);
@@ -93,7 +93,7 @@ public class Customer {
         setEmail(email);
     }
 
-    public void changePhone(String phone) {
+    public void changePhone(Phone phone) {
         verifyIfChangeable();
         setPhone(phone);
     }
@@ -118,7 +118,7 @@ public class Customer {
         return document;
     }
 
-    public String phone() {
+    public Phone phone() {
         return phone;
     }
 
@@ -163,8 +163,7 @@ public class Customer {
         this.document = document;
     }
 
-    private void setPhone(String phone) {
-        Objects.requireNonNull(phone);
+    private void setPhone(Phone phone) {
         this.phone = phone;
     }
 
