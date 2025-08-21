@@ -2,10 +2,7 @@ package com.algawors.algashop.ordering.domain.entity;
 
 
 import com.algawors.algashop.ordering.domain.exception.CustomerArchivedException;
-import com.algawors.algashop.ordering.domain.valueobject.BirthDate;
-import com.algawors.algashop.ordering.domain.valueobject.CustomerId;
-import com.algawors.algashop.ordering.domain.valueobject.FullName;
-import com.algawors.algashop.ordering.domain.valueobject.LoyaltyPoints;
+import com.algawors.algashop.ordering.domain.valueobject.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,7 +37,7 @@ class CustomerTest {
                     new FullName("Jhon", "Doe"),
                     new BirthDate(LocalDate.of(1992, 12, 24)),
                     "invalid",
-                    "255-08-0758",
+                    new Document("255-08-0758"),
                     "478-585-2504",
                     false,
                     OffsetDateTime.now()
@@ -60,7 +57,7 @@ class CustomerTest {
                     c -> Assertions.assertThat(c.fullName()).hasToString("Anonymous Anonymous"),
                     c -> Assertions.assertThat(c.email()).isNotEqualTo("jhon.doe@gmail.com"),
                     c -> Assertions.assertThat(c.phone()).isEqualTo("000-000-0000"),
-                    c -> Assertions.assertThat(c.document()).isEqualTo("000-00-0000"),
+                    c -> Assertions.assertThat(c.document().value()).hasToString("000-00-0000"),
                     c -> Assertions.assertThat(c.birthDate()).isNull(),
                     c -> Assertions.assertThat(c.isPromotionNotificationsAllowed()).isFalse()
             );
@@ -118,7 +115,7 @@ class CustomerTest {
                 new FullName("Jhon", "Doe"),
                 new BirthDate(LocalDate.of(1992, 12, 24)),
                 "jhon.doe@gmail.com",
-                "255-08-0758",
+                new Document("255-08-0758"),
                 "478-585-2504",
                 true,
                 OffsetDateTime.now()
