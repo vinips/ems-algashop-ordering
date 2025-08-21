@@ -15,20 +15,9 @@ class CustomerTest {
     @Nested
     class InvalidEmailCustomer {
         @Test
-        void given_invalidEmail_whenTryCreateCostumer_shouldGenerateException() {
+        void given_invalidEmail_whenTryCreateCustomer_shouldGenerateException() {
             Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                     .isThrownBy(this::createNewCustomerInvalidEmail);
-        }
-
-        @Test
-        void given_invalidEmail_whenTryUpdateCostumerEmail_shouldGenerateException() {
-            Customer customer = createNewCustomerPartial();
-
-            Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                    .isThrownBy(() -> {
-                                customer.changeEmail("invalid");
-                            }
-                    );
         }
 
         private Customer createNewCustomerInvalidEmail() {
@@ -36,7 +25,7 @@ class CustomerTest {
                     new CustomerId(),
                     new FullName("Jhon", "Doe"),
                     new BirthDate(LocalDate.of(1992, 12, 24)),
-                    "invalid",
+                    new Email("invalid"),
                     new Document("255-08-0758"),
                     "478-585-2504",
                     false,
@@ -55,7 +44,7 @@ class CustomerTest {
 
             Assertions.assertWith(customer,
                     c -> Assertions.assertThat(c.fullName()).hasToString("Anonymous Anonymous"),
-                    c -> Assertions.assertThat(c.email()).isNotEqualTo("jhon.doe@gmail.com"),
+                    c -> Assertions.assertThat(c.email().value()).isNotEqualTo("jhon.doe@gmail.com"),
                     c -> Assertions.assertThat(c.phone()).isEqualTo("000-000-0000"),
                     c -> Assertions.assertThat(c.document().value()).hasToString("000-00-0000"),
                     c -> Assertions.assertThat(c.birthDate()).isNull(),
@@ -67,6 +56,7 @@ class CustomerTest {
         void given_archivedCustomer_whenTryToUpdate_shouldGenerateException() {
             Customer customer = createNewCustomerPartial();
             FullName originalFullName = new FullName("Doe", "Jhon");
+            Email email = new Email("doe.jhon@gmail.com");
 
             customer.archive();
 
@@ -77,7 +67,7 @@ class CustomerTest {
                     .isThrownBy(() -> customer.changeName(originalFullName));
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
-                    .isThrownBy(() -> customer.changeEmail("doe.jhon@gmail.com"));
+                    .isThrownBy(() -> customer.changeEmail(email));
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                     .isThrownBy(() -> customer.changePhone("111-111-1111"));
@@ -93,7 +83,7 @@ class CustomerTest {
     }
 
     @Nested
-    class LoyaltyPointsCostumer {
+    class LoyaltyPointsCustomer {
 
         @Test
         void given_newCustomer_whenAddValidLoyaltyPoints_shouldSumPoints() {
@@ -114,7 +104,7 @@ class CustomerTest {
                 new CustomerId(),
                 new FullName("Jhon", "Doe"),
                 new BirthDate(LocalDate.of(1992, 12, 24)),
-                "jhon.doe@gmail.com",
+                new Email("jhon.doe@gmail.com"),
                 new Document("255-08-0758"),
                 "478-585-2504",
                 true,

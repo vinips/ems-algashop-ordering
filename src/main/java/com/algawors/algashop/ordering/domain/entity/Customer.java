@@ -1,8 +1,6 @@
 package com.algawors.algashop.ordering.domain.entity;
 
 import com.algawors.algashop.ordering.domain.exception.CustomerArchivedException;
-import com.algawors.algashop.ordering.domain.exception.ErrorMessages;
-import com.algawors.algashop.ordering.domain.utility.FieldValidations;
 import com.algawors.algashop.ordering.domain.valueobject.*;
 
 import java.time.OffsetDateTime;
@@ -15,7 +13,7 @@ public class Customer {
     private CustomerId id;
     private FullName fullName;
     private BirthDate birthDate;
-    private String email;
+    private Email email;
     private Document document;
     private String phone;
     private Boolean promotionNotificationsAllowed;
@@ -25,7 +23,7 @@ public class Customer {
     private LoyaltyPoints loyaltyPoints;
 
     @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, Document document,
+    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
                     String phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
         this.setId(id);
         this.setFullName(fullName);
@@ -40,7 +38,7 @@ public class Customer {
     }
 
     @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, String email, Document document,
+    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
                     String phone, Boolean promotionNotificationsAllowed, Boolean archived,
                     OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints) {
 
@@ -68,7 +66,7 @@ public class Customer {
         this.setArchived(true);
         this.setArchivedAt(OffsetDateTime.now());
         this.setFullName(new FullName("Anonymous", "Anonymous"));
-        this.setEmail(UUID.randomUUID() + "@anonymous.com");
+        this.setEmail(new Email(UUID.randomUUID() + "@anonymous.com"));
         this.setPhone("000-000-0000");
         this.setDocument(new Document("000-00-0000"));
         this.setBirthDate(null);
@@ -90,7 +88,7 @@ public class Customer {
         setFullName(name);
     }
 
-    public void changeEmail(String email) {
+    public void changeEmail(Email email) {
         verifyIfChangeable();
         setEmail(email);
     }
@@ -112,7 +110,7 @@ public class Customer {
         return birthDate;
     }
 
-    public String email() {
+    public Email email() {
         return email;
     }
 
@@ -157,8 +155,7 @@ public class Customer {
         this.birthDate = birthDate;
     }
 
-    private void setEmail(String email) {
-        FieldValidations.requiresValidEmail(email, ErrorMessages.VALIDATION_ERROR_EMAIL_IS_INVALID);
+    private void setEmail(Email email) {
         this.email = email;
     }
 
