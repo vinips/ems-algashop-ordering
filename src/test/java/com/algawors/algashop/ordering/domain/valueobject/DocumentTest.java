@@ -36,7 +36,7 @@ class DocumentTest {
         String documentNumbers = "255-08-0758";
         Document doc = new Document(documentNumbers);
 
-        Assertions.assertThat(doc.toString()).hasToString(documentNumbers);
+        Assertions.assertThat(doc).hasToString(documentNumbers);
     }
 
 }

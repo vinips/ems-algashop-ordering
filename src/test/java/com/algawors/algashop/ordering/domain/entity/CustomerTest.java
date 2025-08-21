@@ -45,8 +45,8 @@ class CustomerTest {
             Assertions.assertWith(customer,
                     c -> Assertions.assertThat(c.fullName()).hasToString("Anonymous Anonymous"),
                     c -> Assertions.assertThat(c.email().value()).isNotEqualTo("jhon.doe@gmail.com"),
-                    c -> Assertions.assertThat(c.phone().value()).hasToString("000-000-0000"),
-                    c -> Assertions.assertThat(c.document().value()).hasToString("000-00-0000"),
+                    c -> Assertions.assertThat(c.phone()).hasToString("000-000-0000"),
+                    c -> Assertions.assertThat(c.document()).hasToString("000-00-0000"),
                     c -> Assertions.assertThat(c.birthDate()).isNull(),
                     c -> Assertions.assertThat(c.isPromotionNotificationsAllowed()).isFalse()
             );

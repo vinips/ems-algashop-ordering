@@ -37,7 +37,7 @@ class PhoneTest {
         String phoneNumbers = "478-585-2504";
         Phone phone = new Phone(phoneNumbers);
 
-        Assertions.assertThat(phone.toString()).hasToString(phoneNumbers);
+        Assertions.assertThat(phone).hasToString(phoneNumbers);
     }
 
 

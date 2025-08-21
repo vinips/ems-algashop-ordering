@@ -47,6 +47,14 @@ class BirthDateTest {
         Assertions.assertThat(age).isEqualTo(agePeriod.getYears());
     }
 
+    @Test
+    void given_correctBirthDate_whenCallToString_shouldReturnBirthDate() {
+        LocalDate now = LocalDate.now();
+        BirthDate birthDate = new BirthDate(now);
+
+        Assertions.assertThat(birthDate).hasToString(now.toString());
+    }
+
 
 
 }

@@ -44,7 +44,7 @@ class EmailTest {
         String emailString = "teste@gmail.com";
         Email emailValueObject = new Email(emailString);
 
-        Assertions.assertThat(emailValueObject.toString()).hasToString(emailString);
+        Assertions.assertThat(emailValueObject).hasToString(emailString);
     }
 
 }
