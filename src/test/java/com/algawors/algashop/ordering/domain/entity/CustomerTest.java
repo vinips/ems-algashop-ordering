@@ -29,7 +29,8 @@ class CustomerTest {
                     new Document("255-08-0758"),
                     new Phone("478-585-2504"),
                     false,
-                    OffsetDateTime.now()
+                    OffsetDateTime.now(),
+                    createNewAddress()
             );
         }
     }
@@ -39,8 +40,10 @@ class CustomerTest {
         @Test
         void given_unarchivedCustomer_whenArchive_shouldAnonymize() {
             Customer customer = createNewCustomerPartial();
+            Address validAddress = customer.address();
 
             customer.archive();
+
 
             Assertions.assertWith(customer,
                     c -> Assertions.assertThat(c.fullName()).hasToString("Anonymous Anonymous"),
@@ -48,7 +51,9 @@ class CustomerTest {
                     c -> Assertions.assertThat(c.phone()).hasToString("000-000-0000"),
                     c -> Assertions.assertThat(c.document()).hasToString("000-00-0000"),
                     c -> Assertions.assertThat(c.birthDate()).isNull(),
-                    c -> Assertions.assertThat(c.isPromotionNotificationsAllowed()).isFalse()
+                    c -> Assertions.assertThat(c.isPromotionNotificationsAllowed()).isFalse(),
+                    c -> Assertions.assertThat(c.address()).isNotEqualTo(validAddress)
+
             );
         }
 
@@ -58,6 +63,7 @@ class CustomerTest {
             FullName originalFullName = new FullName("Doe", "Jhon");
             Email email = new Email("doe.jhon@gmail.com");
             Phone phone = new Phone("111-111-1111");
+            Address validAddress = customer.address();
 
             customer.archive();
 
@@ -78,6 +84,9 @@ class CustomerTest {
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                     .isThrownBy(customer::disablePromotionNotifications);
+
+            Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
+                    .isThrownBy(() -> customer.changeAddress(validAddress));
         }
     }
 
@@ -96,8 +105,6 @@ class CustomerTest {
         }
     }
 
-
-
     private Customer createNewCustomerPartial() {
         return new Customer(
                 new CustomerId(),
@@ -107,8 +114,22 @@ class CustomerTest {
                 new Document("255-08-0758"),
                 new Phone("478-585-2504"),
                 true,
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                createNewAddress()
         );
+    }
+
+    private Address createNewAddress() {
+        ZipCode zipCode = new ZipCode("12345");
+        return Address.builder()
+                .street("Bourbon Street")
+                .complement("House 1")
+                .neighborhood("Arthur Ville")
+                .number("195")
+                .city("Raleigh")
+                .state("North Carolina")
+                .zipCode(zipCode)
+                .build();
     }
 
 }

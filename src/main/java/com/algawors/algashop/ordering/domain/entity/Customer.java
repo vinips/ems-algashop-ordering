@@ -21,10 +21,11 @@ public class Customer {
     private OffsetDateTime registeredAt;
     private OffsetDateTime archivedAt;
     private LoyaltyPoints loyaltyPoints;
+    private Address address;
 
     @SuppressWarnings("squid:S107")
     public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
-                    Phone phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
+                    Phone phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt, Address address) {
         this.setId(id);
         this.setFullName(fullName);
         this.setBirthDate(birthDate);
@@ -35,12 +36,13 @@ public class Customer {
         this.setRegisteredAt(registeredAt);
         this.setArchived(false);
         this.setLoyaltyPoints(LoyaltyPoints.ZERO);
+        this.setAddress(address);
     }
 
     @SuppressWarnings("squid:S107")
     public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
                     Phone phone, Boolean promotionNotificationsAllowed, Boolean archived,
-                    OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints) {
+                    OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints, Address address) {
 
         this.setId(id);
         this.setFullName(fullName);
@@ -53,6 +55,7 @@ public class Customer {
         this.setArchived(archived);
         this.setArchivedAt(archivedAt);
         this.setLoyaltyPoints(loyaltyPoints);
+        this.setAddress(address);
     }
 
     public void addLoyaltyPoints(LoyaltyPoints points) {
@@ -71,6 +74,7 @@ public class Customer {
         this.setDocument(new Document("000-00-0000"));
         this.setBirthDate(null);
         this.setPromotionNotificationsAllowed(false);
+        this.setAddress(this.address.toBuilder().number("Anonymize").complement(null).build());
     }
 
     public void enablePromotionNotifications() {
@@ -96,6 +100,11 @@ public class Customer {
     public void changePhone(Phone phone) {
         verifyIfChangeable();
         setPhone(phone);
+    }
+
+    public void changeAddress(Address address) {
+        verifyIfChangeable();
+        this.setAddress(address);
     }
 
     public CustomerId id() {
@@ -142,12 +151,17 @@ public class Customer {
         return loyaltyPoints;
     }
 
+    public Address address() {
+        return address;
+    }
+
     private void setId(CustomerId id) {
         Objects.requireNonNull(id);
         this.id = id;
     }
 
     private void setFullName(FullName fullName) {
+        Objects.requireNonNull(fullName);
         this.fullName = fullName;
     }
 
@@ -156,14 +170,17 @@ public class Customer {
     }
 
     private void setEmail(Email email) {
+        Objects.requireNonNull(email);
         this.email = email;
     }
 
     private void setDocument(Document document) {
+        Objects.requireNonNull(document);
         this.document = document;
     }
 
     private void setPhone(Phone phone) {
+        Objects.requireNonNull(phone);
         this.phone = phone;
     }
 
@@ -189,6 +206,11 @@ public class Customer {
     private void setLoyaltyPoints(LoyaltyPoints loyaltyPoints) {
         Objects.requireNonNull(loyaltyPoints);
         this.loyaltyPoints = loyaltyPoints;
+    }
+
+    private void setAddress(Address address) {
+        Objects.requireNonNull(address);
+        this.address = address;
     }
 
     private void verifyIfChangeable() {

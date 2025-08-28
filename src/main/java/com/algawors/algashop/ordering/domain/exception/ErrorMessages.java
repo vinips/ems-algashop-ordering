@@ -12,8 +12,8 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_DOCUMENT_IS_BLANK_OR_NULL = "Document cannot be blank or null";
     public static final String VALIDATION_ERROR_PHONE_IS_BLANK_OR_NULL = "Phone cannot be blank or null";
     public static final String VALIDATION_ERROR_STREET_IS_BLANK_OR_NULL = "Street cannot be blank or null";
-    public static final String VALIDATION_ERROR_COMPLEMENT_IS_BLANK_OR_NULL = "Complement cannot be blank or null";
     public static final String VALIDATION_ERROR_NEIGHBORHOOD_IS_BLANK_OR_NULL = "neighborhood cannot be blank or null";
+    public static final String VALIDATION_ERROR_NUMBER_IS_BLANK_OR_NULL = "Number cannot be blank or null";
     public static final String VALIDATION_ERROR_CITY_IS_BLANK_OR_NULL = "city cannot be blank or null";
     public static final String VALIDATION_ERROR_STATE_IS_BLANK_OR_NULL = "State cannot be blank or null";
     public static final String VALIDATION_ERROR_ZIPCODE_IS_BLANK_OR_NULL = "ZipCode cannot be blank or null";
