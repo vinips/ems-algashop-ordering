@@ -23,24 +23,24 @@ public class Customer {
     private LoyaltyPoints loyaltyPoints;
     private Address address;
 
-    @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
-                    Phone phone, Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt, Address address) {
-        this.setId(id);
-        this.setFullName(fullName);
-        this.setBirthDate(birthDate);
-        this.setEmail(email);
-        this.setDocument(document);
-        this.setPhone(phone);
-        this.setPromotionNotificationsAllowed(promotionNotificationsAllowed);
-        this.setRegisteredAt(registeredAt);
-        this.setArchived(false);
-        this.setLoyaltyPoints(LoyaltyPoints.ZERO);
-        this.setAddress(address);
+    public static Customer brandNew(FullName fullName, BirthDate birthDate, Email email, Document document,
+                                    Phone phone, Boolean promotionNotificationsAllowed, Address address) {
+        return new Customer(new CustomerId(), fullName, birthDate, email, document,
+                phone, promotionNotificationsAllowed, false,
+                OffsetDateTime.now(), null, LoyaltyPoints.ZERO, address);
     }
 
     @SuppressWarnings("squid:S107")
-    public Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
+    public static Customer existing(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
+                                    Phone phone, Boolean promotionNotificationsAllowed, Boolean archived,
+                                    OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints, Address address) {
+        return new Customer(id, fullName, birthDate, email, document,
+                phone, promotionNotificationsAllowed, archived,
+                registeredAt, archivedAt, loyaltyPoints, address);
+    }
+
+    @SuppressWarnings("squid:S107")
+    private Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
                     Phone phone, Boolean promotionNotificationsAllowed, Boolean archived,
                     OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints, Address address) {
 

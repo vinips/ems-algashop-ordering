@@ -21,15 +21,13 @@ class CustomerTest {
         }
 
         private Customer createNewCustomerInvalidEmail() {
-            return new Customer(
-                    new CustomerId(),
+            return Customer.brandNew(
                     new FullName("Jhon", "Doe"),
                     new BirthDate(LocalDate.of(1992, 12, 24)),
                     new Email("invalid"),
                     new Document("255-08-0758"),
                     new Phone("478-585-2504"),
                     false,
-                    OffsetDateTime.now(),
                     createNewAddress()
             );
         }
@@ -59,13 +57,11 @@ class CustomerTest {
 
         @Test
         void given_archivedCustomer_whenTryToUpdate_shouldGenerateException() {
-            Customer customer = createNewCustomerPartial();
+            Customer customer = createExistingAnonymousCustomer();
             FullName originalFullName = new FullName("Doe", "Jhon");
             Email email = new Email("doe.jhon@gmail.com");
             Phone phone = new Phone("111-111-1111");
             Address validAddress = customer.address();
-
-            customer.archive();
 
             Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                     .isThrownBy(customer::archive);
@@ -106,15 +102,30 @@ class CustomerTest {
     }
 
     private Customer createNewCustomerPartial() {
-        return new Customer(
-                new CustomerId(),
+        return Customer.brandNew(
                 new FullName("Jhon", "Doe"),
                 new BirthDate(LocalDate.of(1992, 12, 24)),
                 new Email("jhon.doe@gmail.com"),
                 new Document("255-08-0758"),
                 new Phone("478-585-2504"),
                 true,
+                createNewAddress()
+        );
+    }
+
+    private Customer createExistingAnonymousCustomer() {
+        return Customer.existing(
+                new CustomerId(),
+                new FullName("Anonymous", "Anonymous"),
+                null,
+                new Email("anonymous@anonymous.com"),
+                new Document("000-00-0000"),
+                new Phone("000-000-0000"),
+                false,
+                true,
                 OffsetDateTime.now(),
+                OffsetDateTime.now(),
+                new LoyaltyPoints(10),
                 createNewAddress()
         );
     }
