@@ -21,15 +21,15 @@ class CustomerTest {
         }
 
         private Customer createNewCustomerInvalidEmail() {
-            return Customer.brandNew(
-                    new FullName("Jhon", "Doe"),
-                    new BirthDate(LocalDate.of(1992, 12, 24)),
-                    new Email("invalid"),
-                    new Document("255-08-0758"),
-                    new Phone("478-585-2504"),
-                    false,
-                    createNewAddress()
-            );
+            return Customer.brandNew()
+                    .fullName(new FullName("Jhon", "Doe"))
+                    .birthDate(new BirthDate(LocalDate.of(1992, 12, 24)))
+                    .email(new Email("invalid"))
+                    .document(new Document("255-08-0758"))
+                    .phone(new Phone("478-585-2504"))
+                    .promotionNotificationsAllowed(false)
+                    .address(createNewAddress())
+                    .build();
         }
     }
 
@@ -102,32 +102,32 @@ class CustomerTest {
     }
 
     private Customer createNewCustomerPartial() {
-        return Customer.brandNew(
-                new FullName("Jhon", "Doe"),
-                new BirthDate(LocalDate.of(1992, 12, 24)),
-                new Email("jhon.doe@gmail.com"),
-                new Document("255-08-0758"),
-                new Phone("478-585-2504"),
-                true,
-                createNewAddress()
-        );
+        return Customer.brandNew()
+                .fullName(new FullName("Jhon", "Doe"))
+                .birthDate(new BirthDate(LocalDate.of(1992, 12, 24)))
+                .email(new Email("jhon.doe@gmail.com"))
+                .document(new Document("255-08-0758"))
+                .phone(new Phone("478-585-2504"))
+                .promotionNotificationsAllowed(true)
+                .address(createNewAddress())
+                .build();
     }
 
     private Customer createExistingAnonymousCustomer() {
-        return Customer.existing(
-                new CustomerId(),
-                new FullName("Anonymous", "Anonymous"),
-                null,
-                new Email("anonymous@anonymous.com"),
-                new Document("000-00-0000"),
-                new Phone("000-000-0000"),
-                false,
-                true,
-                OffsetDateTime.now(),
-                OffsetDateTime.now(),
-                new LoyaltyPoints(10),
-                createNewAddress()
-        );
+        return Customer.existing()
+                .id(new CustomerId())
+                .fullName(new FullName("Anonymous", "Anonymous"))
+                .birthDate(null)
+                .email(new Email("anonymous@anonymous.com"))
+                .document(new Document("000-00-0000"))
+                .phone(new Phone("000-000-0000"))
+                .promotionNotificationsAllowed(false)
+                .archived(true)
+                .registeredAt(OffsetDateTime.now())
+                .archivedAt(OffsetDateTime.now())
+                .loyaltyPoints(new LoyaltyPoints(10))
+                .address(createNewAddress())
+                .build();
     }
 
     private Address createNewAddress() {

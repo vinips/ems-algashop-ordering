@@ -2,6 +2,7 @@ package com.algawors.algashop.ordering.domain.entity;
 
 import com.algawors.algashop.ordering.domain.exception.CustomerArchivedException;
 import com.algawors.algashop.ordering.domain.valueobject.*;
+import lombok.Builder;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -23,23 +24,16 @@ public class Customer {
     private LoyaltyPoints loyaltyPoints;
     private Address address;
 
-    public static Customer brandNew(FullName fullName, BirthDate birthDate, Email email, Document document,
+    @Builder(builderClassName = "BrandNewCustomerBuild", builderMethodName = "brandNew")
+    private static Customer createBrandNew(FullName fullName, BirthDate birthDate, Email email, Document document,
                                     Phone phone, Boolean promotionNotificationsAllowed, Address address) {
+
         return new Customer(new CustomerId(), fullName, birthDate, email, document,
                 phone, promotionNotificationsAllowed, false,
                 OffsetDateTime.now(), null, LoyaltyPoints.ZERO, address);
     }
 
-    @SuppressWarnings("squid:S107")
-    public static Customer existing(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
-                                    Phone phone, Boolean promotionNotificationsAllowed, Boolean archived,
-                                    OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints, Address address) {
-        return new Customer(id, fullName, birthDate, email, document,
-                phone, promotionNotificationsAllowed, archived,
-                registeredAt, archivedAt, loyaltyPoints, address);
-    }
-
-    @SuppressWarnings("squid:S107")
+    @Builder(builderClassName = "ExistingCustomerBuild", builderMethodName = "existing")
     private Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Document document,
                     Phone phone, Boolean promotionNotificationsAllowed, Boolean archived,
                     OffsetDateTime registeredAt, OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints, Address address) {
